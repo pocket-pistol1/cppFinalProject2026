@@ -25,10 +25,21 @@ Outcomes: Player Win, Banker Win, or Tie.
 #include <vector>
 #include <map>
 
+struct gmeste {
+    int bt; // 1 = bnk, 0 = ply 
+    crd::Deck d; // deck constructor; header ln: 33.. 39
+    crd::Hand ply; // players hand
+    crd::Hand bnk; // bankers hand
+};
+
 // ------------------------------
 // start of crd
 // ------------------------------
 namespace crd {
+    struct Card;
+    struct Deck;
+    struct Hand;
+    Card getCrd(Deck& d);
     // each card
     struct Card {
         int val; // Aces = 1; 2-9 = Face Value; 10, Jack, Queen, King = 0
@@ -38,15 +49,13 @@ namespace crd {
     struct Deck {
     std::vector<Card> deck; 
     // creates the deck
-        Deck() {
-            for (int suit = 0; suit < 4; suit++) { deck.push_back({1}); // the ace
-                for (int v = 2; v <= 9; v++) {deck.push_back({v});} // 2.. 9
-                for (int i = 0; i < 4; i++) {
-                    if(i > 1) deck.push_back({0});
-                    deck.push_back({10});
-                } // faces
-            }
-        }
+       Deck() {
+    for (int suit = 0; suit < 4; suit++) {
+        deck.push_back({1}); // ace
+        for (int v = 2; v <= 9; v++) {deck.push_back({v});} // 2.. 9
+        for (int i = 0; i < 4; i++) {deck.push_back({0});} // // 10, J, Q, K
+    }
+}
     }; // end of deck
 
     // individual hands
@@ -54,9 +63,21 @@ namespace crd {
         std::vector<Card> vc;
         int totalval; // total value of hand
         void calcTot() {
+            totalval = 0;
             for(Card c : vc) {totalval += c.val;}
         }
     }; // end of hand
+
+// returns random card
+Card getCrd(Deck& d) {
+    std::random_device rd; // create the rng device
+    std::mt19937 gen(rd());
+    std::uniform_int_distribution<> distrib(0, d.deck.size()-1); // set the range
+    int ind = distrib(gen);
+    crd::Card rnd = d.deck[ind]; // return a random card in the deck
+    d.deck.erase(d.deck.begin() + ind);
+    return rnd;
+}
 
 }
 // ------------------------------

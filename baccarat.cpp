@@ -84,8 +84,8 @@ namespace scrn {
     void play(gmeste& gs);
     void clrScrn();
     void hwto_ply();
-    void getWnr(int bet, int phnd, int bhnd);
-    void men_dsply(int in, gmeste& gs);
+    void getWnr(int& bet, int& phnd, int& bhnd);
+    void men_dsply(int& in, gmeste& gs);
     // ------ prototypes
 
     void clrScrn() { // clears the terminal
@@ -97,7 +97,7 @@ namespace scrn {
     }
 
     // displaying the menus
-    void men_dsply(int in,gmeste& gs) {
+    void men_dsply(int& in,gmeste& gs) {
         switch(in) {
             case 1: play(gs); break;
             case 2: hwto_ply(); break;
@@ -139,7 +139,7 @@ namespace scrn {
         in = getVldint();
     }
 
-    void getWnr(int bt, int phnd, int bhnd) {
+    void getWnr(int& bt, int& phnd, int& bhnd) {
         if(bt == 1 && (phnd > bhnd)) {printf("You lose!\n");} // bet banker and plyr was closer to 9
         if(bt == 1 && (phnd < bhnd)) {printf("You win!\n");} // bet banker and banker was closer to 9
         if(bt == 0 && (phnd < bhnd)) {printf("You win!\n");} // bet player and player was closer to 9

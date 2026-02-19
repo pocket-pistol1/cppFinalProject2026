@@ -49,8 +49,8 @@ namespace crd {
     struct Deck {
     std::vector<Card> deck; 
     // creates the deck
-       Deck() {
-    for (int suit = 0; suit < 4; suit++) {
+    Deck() {
+        for (int suit = 0; suit < 4; suit++) {
         deck.push_back({1}); // ace
         for (int v = 2; v <= 9; v++) {deck.push_back({v});} // 2.. 9
         for (int i = 0; i < 4; i++) {deck.push_back({0});} // // 10, J, Q, K
